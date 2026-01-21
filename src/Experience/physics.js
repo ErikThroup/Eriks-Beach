@@ -19,9 +19,8 @@ export default class Physics {
         this.gravity = { x: 0.0, y: -9.81, z: 0.0 };
         this.world = new RAPIER.World(this.gravity);
         
-        console.log('✅ Physics world initialized');
         
-        // Create ground plane (your beach floor)
+        // Create ground plane 
         this.createGround();
     }
     
@@ -30,17 +29,17 @@ export default class Physics {
         let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0);
         this.groundCollider = this.world.createCollider(groundColliderDesc);
         
-        // Position it at y = -1 (under your beach)
+        // Position it at y = -1 
         this.groundCollider.setTranslation({ x: 0.0, y: -1.0, z: 0.0 });
     }
     
     createBox(position = { x: 0, y: 5, z: 0 }, size = { x: 1, y: 1, z: 1 }) {
-        // Create dynamic rigid body
+        // Create rigid body
         let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
             .setTranslation(position.x, position.y, position.z);
         let rigidBody = this.world.createRigidBody(rigidBodyDesc);
         
-        // Create collider for the box
+        // Create a colisoion outline for the box
         let colliderDesc = RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2);
         let collider = this.world.createCollider(colliderDesc, rigidBody);
         
@@ -51,9 +50,10 @@ export default class Physics {
     }
     
     update() {
-        // Step the physics simulation
+        // Step the class
         if (this.world) {
             this.world.step();
         }
     }
+
 }
