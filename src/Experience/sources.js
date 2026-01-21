@@ -22,6 +22,6 @@ export default [
   {
     name: 'rockisland',      // You can rename this
     type: 'gltfModel',         // Must be 'gltfModel'
-    path: '/models/rockisland1.glb'  // Change to your filename
+    path: 'models/rockisland1.glb'  // Change to your filename
   },
 ];
