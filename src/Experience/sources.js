@@ -22,8 +22,9 @@ export default [
   {
     name: 'rockisland',    //rock island model from blender  
     type: 'gltfModel',         
-    path: '/models/rockisland1.glb'  
+    path: 'models/rockisland1.glb'  
   },
 ];
+
 
 
