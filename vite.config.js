@@ -4,5 +4,6 @@ export default {
     outDir: '.',  // Build to root instead of dist/
     assetsDir: 'assets',
     emptyOutDir: true,
+    copyPublicDir: true,
   }
 }
