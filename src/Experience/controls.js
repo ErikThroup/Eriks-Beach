@@ -1,7 +1,7 @@
 export default class Controls {
     constructor() {
         this.experience = window.experience;
-        this.physicsBox = null; // Reference to box we control
+        this.physicsBox = null;
         
         this.keys = {};
         this.setupEventListeners();
@@ -58,4 +58,5 @@ export default class Controls {
     update() {
         this.handleInput();
     }
+
 }
