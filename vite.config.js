@@ -1,10 +1,8 @@
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  base: './',  // ← This fixes GitHub Pages paths
+export default {
+  base: './',
   build: {
-    outDir: 'dist',
+    outDir: '.',  // Build to root instead of dist/
     assetsDir: 'assets',
-    emptyOutDir: true
+    emptyOutDir: true,
   }
-})
+}
