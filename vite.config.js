@@ -1,7 +1,7 @@
 export default {
   base: './',
   build: {
-    outDir: '.',  // Build to root instead of dist/
+    outDir: 'dist', 
     assetsDir: 'assets',
     emptyOutDir: true,
     copyPublicDir: true,
