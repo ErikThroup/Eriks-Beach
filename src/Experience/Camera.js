@@ -21,7 +21,6 @@ export default class Camera {
     this.setControls()
     this.setupKeyboardControls()
     
-    console.log('📷 Camera initialized - Press F for follow, O for orbit')
   }
 
   setInstance() {
@@ -53,16 +52,12 @@ export default class Camera {
     this.followTarget = targetMesh
     this.mode = 'follow'
     this.controls.enabled = false // Disable orbit controls in follow mode
-    
-    console.log('🎯 Camera following box (press O to orbit)')
   }
 
   setOrbitTarget(targetMesh) {
     this.orbitTargetMesh = targetMesh
     this.mode = 'orbit'
     this.controls.enabled = true
-    
-    console.log('🎯 Camera orbiting around box (press F to follow)')
   }
 
   update() {
@@ -143,13 +138,12 @@ export default class Camera {
       if (key === 'r') {
         this.instance.position.set(0, 5, 10)
         this.controls.target.set(0, 1, 0)
-        console.log('📷 Camera reset')
       }
       
       // 1-3 for preset views
       if (key === '1') {
         // Top-down view
-        this.instance.position.set(0, 15, 0)
+        this.instance.position.set(0, 10, 0)
         this.controls.target.set(0, 0, 0)
       }
       
