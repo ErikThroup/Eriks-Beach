@@ -25,10 +25,6 @@ export default class MovableBox {
     // Create a placeholder material first
     this.createPlaceholderMaterial()
     this.setMesh()
-    
-    console.log('🎮 Movable box created! Use WASD to move, SPACE to jump')
-    
-    // Wait for resources to load, then apply textures
     this.waitForResources()
   }
 
@@ -53,7 +49,6 @@ export default class MovableBox {
     } else {
       // Wait for textures to load
       this.resources.on('ready', () => {
-        console.log('✅ Resources ready, applying textures to movable box')
         this.setTextures()
         this.updateMaterial()
       })
@@ -62,19 +57,7 @@ export default class MovableBox {
 
   setTextures() {
     this.textures = {}
-    
-    // Check if textures exist
-    if (!this.resources.items.wallColorTexture) {
-      console.warn('⚠️ wallColorTexture not found, using placeholder')
-      return
-    }
-    
-    if (!this.resources.items.wallNormalTexture) {
-      console.warn('⚠️ wallNormalTexture not found, using placeholder')
-      return
-    }
-    
-    // Use the same textures as your Floor class
+    // Use the same textures as the Floor class
     this.textures.color = this.resources.items.wallColorTexture
     this.textures.color.encoding = THREE.sRGBEncoding
     this.textures.color.repeat.set(1.5, 1.5)
@@ -86,7 +69,6 @@ export default class MovableBox {
     this.textures.normal.wrapS = THREE.RepeatWrapping
     this.textures.normal.wrapT = THREE.RepeatWrapping
     
-    console.log('✅ Textures loaded for movable box')
   }
 
   updateMaterial() {
@@ -95,18 +77,12 @@ export default class MovableBox {
       this.material.map = this.textures.color
       this.material.normalMap = this.textures.normal
       this.material.needsUpdate = true
-      console.log('✅ Material updated with textures')
-    } else {
-      // Fallback to colored material
-      this.material.color.set(0x00ff00) // Green
-      this.material.roughness = 0.3
-      this.material.metalness = 0.2
-    }
+    } 
   }
 
   setMesh() {
     this.mesh = new THREE.Mesh(this.geometry, this.material)
-    this.mesh.position.set(0, 3, 0) // Start above ground
+    this.mesh.position.set(0, 3, 0) 
     this.mesh.castShadow = true
     this.mesh.receiveShadow = true
     this.scene.add(this.mesh)
