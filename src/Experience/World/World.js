@@ -94,9 +94,13 @@ export default class World {
       this.movableBox.update();
     }
 
-    if (this.movableBox && this.movableBox.mesh) {
+  if (this.movableBox && this.movableBox.mesh) {
       const playerPosition = this.movableBox.mesh.position;
       this.time += 0.016;
 
       this.triggerZones.forEach(zone => {
-        zon
+        zone.update(playerPosition, this.time);
+      });
+    }
+  }
+}  // <-- this closing brace must be here, closing the World class
