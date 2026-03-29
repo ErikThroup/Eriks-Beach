@@ -32,15 +32,18 @@ export default class Environment {
     this.renderer.update();
   }
 
-  setSunLight() {
+setSunLight() {
     this.sunLight = new THREE.DirectionalLight('#ffffff', 4)
     this.sunLight.castShadow = true
-    this.sunLight.shadow.camera.far = 15
-    this.sunLight.shadow.mapSize.set(1024, 1024)
+    this.sunLight.shadow.camera.far = 200        // was 15, increase draw distance
+    this.sunLight.shadow.camera.left = -50       // add these 4 lines
+    this.sunLight.shadow.camera.right = 50
+    this.sunLight.shadow.camera.top = 50
+    this.sunLight.shadow.camera.bottom = -50
+    this.sunLight.shadow.mapSize.set(2048, 2048) // was 1024, sharper shadows
     this.sunLight.shadow.normalBias = 0.05
     this.sunLight.position.set(3, 3, -2.25)
     this.scene.add(this.sunLight)
-
   }
 
   setEnvironmentMap() {
