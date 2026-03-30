@@ -43,18 +43,18 @@ export default class World {
         data: {
           title: "About ME",
           description: "Hi! I'm Erik an international student, studying Creative Technology at the Vrije Universiteit van Amsterdam. I'm highly motivated to find a career in a field I'll find fun and fulfilling. I love coming up with technical solutions to problems in my daily life. I was born in Spain in 2003 but grew up in Amsterdam and attended an international school. I'm a very active person and love to hike and be outdoors in nature.",
-          images: ["./images/WhatsApp+Image+2025-10-21+at+23.18.41_bfca53af.jpeg"],
+          images: ["./images/WhatsApp+Image+2025-10-21+at+23.18.41_bfca53af.webp"],
           videoUrl: null,
         }
       },
       {
-        name: "Theme 2: Sense-Process-Act",
+        name: "Sense-Process-Act",
         position: { x: 5, y: 0.5, z: 5 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "Theme 2: Sense-Process-Act",
+          title: "Sense-Process-Act",
           description: "This has probably been one of my favorite assignments. I had to design a Dutch windmill in Fusion 360 with specific size parameters. I was told there would be a chance for my design to be 3D printed and laser cut, which is why I was so motivated to finish it.",
-          images: ["./images/Screenshot+2025-10-21+120628.png"],
+          images: ["./images/Screenshot+2025-10-21+120628.webp"],
           videoUrl: null,
         }
       },
@@ -65,8 +65,8 @@ export default class World {
         data: {
           title: "Soldering Christmas Tree",
           description: "This is the LED Christmas tree I soldered for my M1 workshop. This was a great opportunity to learn how to solder and the mechanics behind it.",
-          images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.jpeg"],
-          videoUrl: null,
+          images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.webp"],
+          videoUrl: null,a
         }
       },
       {
@@ -158,7 +158,7 @@ export default class World {
     })
 
     // 40 metres away along Z axis
-    this.flyingMachine.position.set(0, 0.1, 40);
+    this.flyingMachine.position.set(0, 0.4, 40);
     this.flyingMachine.scale.set(0.33, 0.33, 0.33);
     this.scene.add(this.flyingMachine);
   }
