@@ -21,9 +21,9 @@ export default class MovableBox {
     this.waitForPhysics()
   }
 
-  setGeometry() {
-    this.geometry = new THREE.BoxGeometry(0.6, 1.0, 0.6)
-  }
+ setGeometry() {
+  this.geometry = new THREE.BoxGeometry(0.6, 0.6, 0.6) // make it a cube not tall
+}
 
   createPlaceholderMaterial() {
     this.material = new THREE.MeshStandardMaterial({
