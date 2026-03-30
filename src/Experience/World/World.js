@@ -25,7 +25,6 @@ export default class World {
       this.loadBlenderModel();
       this.createTriggerZones();
 
-      // Follow mode is the default camera mode
       setTimeout(() => {
         if (this.experience.camera && this.movableBox && this.movableBox.mesh) {
           this.experience.camera.setFollowTarget(this.movableBox.mesh)
@@ -36,18 +35,16 @@ export default class World {
 
   createTriggerZones() {
     const zones = [
-      
-        {
+      {
         name: "About ME",
         position: { x: 0, y: 0.5, z: -15 },
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "About ME",
-          description: "THi! I’m Erik an internatonal student, studying Creative technology at the Vrije Universiteit van Amsterdam. Im highly motivated to do well in my course to find a career in a field I’ll find fun forfilling.  I love coming up with technical solutions to all sorts of problems in my daily life so I think this course will be a good fit. \/n\ Bit more about me; I was born in Spain in 2003 but I grewup in Amsterdam and attented an international school. I’m a very active person and I love to hike and be outdoors in nature. I able to program in quite a few languages and know the fundamentals of webdevelopment.his assignment was just all around fun I got to program flying dragons that change colors.  was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
+          description: "Hi! I'm Erik an international student, studying Creative Technology at the Vrije Universiteit van Amsterdam. I'm highly motivated to find a career in a field I'll find fun and fulfilling. I love coming up with technical solutions to problems in my daily life. I was born in Spain in 2003 but grew up in Amsterdam and attended an international school. I'm a very active person and love to hike and be outdoors in nature.",
           images: ["./images/WhatsApp+Image+2025-10-21+at+23.18.41_bfca53af.jpeg"],
           videoUrl: null,
         }
-      
       },
       {
         name: "Theme 2: Sense-Process-Act",
@@ -55,18 +52,18 @@ export default class World {
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "Theme 2: Sense-Process-Act",
-          description: "This has probaly been one of my favoret assignments. I had to design a dutch windmill in fusion 360 with spesific size peramiters. I was told that there would be a chance for my design to be 3d printed and lazer cut, which is why I was so motivated to do this assignment and basicaly finished it the moment we were told about it.",
+          description: "This has probably been one of my favorite assignments. I had to design a Dutch windmill in Fusion 360 with specific size parameters. I was told there would be a chance for my design to be 3D printed and laser cut, which is why I was so motivated to finish it.",
           images: ["./images/Screenshot+2025-10-21+120628.png"],
           videoUrl: null,
         }
       },
       {
-        name: "Soldering Chrismas tree",
+        name: "Soldering Christmas Tree",
         position: { x: -5, y: 0.5, z: 5 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "Soldering Chrismas tree",
-          description: "This is the LED chrismas tree I soldered for my M1 workshop. This was a great operunity to learn how to solder and the mechanics behind soldering.",
+          title: "Soldering Christmas Tree",
+          description: "This is the LED Christmas tree I soldered for my M1 workshop. This was a great opportunity to learn how to solder and the mechanics behind it.",
           images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.jpeg"],
           videoUrl: null,
         }
@@ -77,31 +74,31 @@ export default class World {
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "Hackathon-Video PSA",
-          description: "This was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
+          description: "This was a group project in M1 where we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
           images: ["./images/beach.jpg"],
-          videoUrl: "https://www.youtube.com/watch?v=k4tOGeTYqSQ",
+          videoUrl: "https://www.youtube.com/embed/k4tOGeTYqSQ",
         }
       },
       {
-        name: "Creature assignment",
+        name: "Creature Assignment",
         position: { x: -5, y: 0.5, z: -10 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "Creature assignment",
-          description: "This assignment was just all around fun I got to program flying dragons that change colors.  was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
+          title: "Creature Assignment",
+          description: "This assignment was just all around fun — I got to program flying dragons that change colors!",
           images: ["./images/beach.jpg"],
-          videoUrl: "https://www.youhttps://www.youtube.com/watch?v=p5UYFP2AKfUtube.com/watch?v=k4tOGeTYqSQ",
+          videoUrl: "https://www.youtube.com/embed/p5UYFP2AKfU",
         }
-      }
-            {
-        name: "Creature assignment",
-        position: { x: -5, y: 0.5, z: -10 },
+      },
+      {
+        name: "Smart Self Monitoring Mushroom Grow Kit",
+        position: { x: 0, y: 0.5, z: 15 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "Creature assignment",
-          description: "This assignment was just all around fun I got to program flying dragons that change colors.  was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
-          images: ["./images/beach.jpg"],
-          videoUrl: "https://www.youhttps://www.youtube.com/watch?v=p5UYFP2AKfUtube.com/watch?v=k4tOGeTYqSQ",
+          title: "Smart Self Monitoring Mushroom Grow Kit",
+          description: "This was a group project in M2 for smart environments. We chose to make a smart mushroom grow kit that uses sensors to monitor the mushrooms and the environment they grow in. The system could water, heat and refresh the air in the grow kit based on sensor data. We also made a website and Processing program to monitor the mushrooms and control the system.",
+          images: [],
+          videoUrl: "https://www.youtube.com/embed/oSsGmyDUjwg",
         }
       }
     ];

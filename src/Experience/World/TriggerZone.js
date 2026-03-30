@@ -4,7 +4,7 @@ export default class TriggerZone {
   constructor(position, size, zoneData, scene) {
     this.position = position
     this.size = size
-    this.zoneData = zoneData // { title, description, images[], videoUrl }
+    this.zoneData = zoneData
     this.scene = scene
     this.isPlayerInside = false
 
@@ -19,7 +19,7 @@ export default class TriggerZone {
       color: 0x00ff00,
       transparent: true,
       opacity: 0.3,
-      visible: false // set true to debug zone positions
+      visible: false
     })
     this.triggerMesh = new THREE.Mesh(geometry, material)
     this.triggerMesh.position.set(this.position.x, this.position.y, this.position.z)
@@ -27,7 +27,6 @@ export default class TriggerZone {
   }
 
   createVisualIndicator() {
-    // Glowing ring on the floor
     const ringGeometry = new THREE.RingGeometry(2, 2.5, 32)
     const ringMaterial = new THREE.MeshStandardMaterial({
       color: 0xffaa00,
@@ -41,7 +40,6 @@ export default class TriggerZone {
     this.ring.position.set(this.position.x, this.position.y + 0.05, this.position.z)
     this.scene.add(this.ring)
 
-    // Floating particles
     this.particles = []
     for (let i = 0; i < 8; i++) {
       const geo = new THREE.SphereGeometry(0.1, 4, 4)
@@ -63,9 +61,7 @@ export default class TriggerZone {
     }
   }
 
-  // Build the popup once in the DOM, reuse it
   createPopupElement() {
-    // Add styles to head once
     if (!document.getElementById('trigger-zone-styles')) {
       const style = document.createElement('style')
       style.id = 'trigger-zone-styles'
@@ -74,7 +70,6 @@ export default class TriggerZone {
           from { opacity: 0; transform: translate(-50%, -45%); }
           to   { opacity: 1; transform: translate(-50%, -50%); }
         }
-
         .trigger-popup {
           display: none;
           position: fixed;
@@ -95,26 +90,22 @@ export default class TriggerZone {
           overflow-y: auto;
           max-height: 85vh;
         }
-
         .trigger-popup h2 {
           color: #ffaa44;
           margin: 0 0 14px 0;
           font-size: 1.4rem;
         }
-
         .trigger-popup p {
           line-height: 1.6;
           color: #cccccc;
           margin: 0 0 16px 0;
         }
-
         .trigger-popup img {
           width: 100%;
           border-radius: 8px;
           margin: 8px 0;
           display: block;
         }
-
         .trigger-popup iframe {
           width: 100%;
           height: 260px;
@@ -122,22 +113,34 @@ export default class TriggerZone {
           border-radius: 8px;
           margin: 10px 0;
         }
-
         .trigger-popup .exit-hint {
           margin-top: 16px;
           font-size: 0.78rem;
           color: #888;
           text-align: center;
         }
+        .trigger-popup .refocus-btn {
+          display: block;
+          margin: 10px auto 0;
+          padding: 8px 20px;
+          background: #ffaa44;
+          color: #000;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 0.85rem;
+          font-weight: bold;
+        }
+        .trigger-popup .refocus-btn:hover {
+          background: #ffcc77;
+        }
       `
       document.head.appendChild(style)
     }
 
-    // Create the popup div
     this.popup = document.createElement('div')
     this.popup.classList.add('trigger-popup')
 
-    // Build inner content
     const imagesHtml = (this.zoneData.images || [])
       .map(src => `<img src="${src}" alt="project image" />`)
       .join('')
@@ -152,15 +155,19 @@ export default class TriggerZone {
       ${imagesHtml}
       ${videoHtml}
       <div class="exit-hint">Walk out of the zone to close</div>
+      <button class="refocus-btn">▶ Click here to resume controls</button>
     `
+
+    this.popup.querySelector('.refocus-btn').addEventListener('click', () => {
+      document.querySelector('canvas.webgl').focus()
+    })
 
     document.body.appendChild(this.popup)
   }
 
   showPopup() {
-    // Reset animation so it plays again each time
     this.popup.style.animation = 'none'
-    this.popup.offsetHeight // force reflow
+    this.popup.offsetHeight
     this.popup.style.animation = ''
     this.popup.style.display = 'block'
   }
@@ -198,6 +205,8 @@ export default class TriggerZone {
     console.log(`🚪 Left: ${this.zoneData.title}`)
     if (this.ring) this.ring.material.emissiveIntensity = 0.2
     this.hidePopup()
+    // Return focus to canvas so keyboard controls work again
+    document.querySelector('canvas.webgl').focus()
   }
 
   updateParticles(time) {

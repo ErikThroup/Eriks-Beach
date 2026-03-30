@@ -14,6 +14,7 @@ body {
   left: 0;
   outline: none;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -25,7 +26,6 @@ body {
   }
 }
 
-/* Optional: Add floating animation to zone indicators */
 @keyframes float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-5px); }
