@@ -69,12 +69,12 @@ export default class World {
           videoUrl: null,
         }
       },   {
-        name: "leonardo da vinci glider",
-        position: { x: 5, y: 0.5, z: 40 },
+        name: "Da Vinci Glider",
+        position: { x: -7, y: 0.5, z: 40 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "leonardo da vinci glider",
-          description: "This is a model of Leonardo da Vinci's glider that I made in blender using this photo as a reference.",
+          title: "Da Vinci Glider",
+          description: "This is a model of Leonardo da Vinci's glider that I made in blender using this photo as a reference. I had to turn down the polygons to fit the model into the portfolio.",
           images: ["./images/design-for-flying-machine-leonardo-da-vinci.jpg"],
           videoUrl: null,
         }
