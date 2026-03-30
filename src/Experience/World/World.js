@@ -142,6 +142,8 @@ export default class World {
     this.blenderModel.position.set(0, -2, -25);
     this.blenderModel.scale.set(1, 1, 1);
     this.scene.add(this.blenderModel);
+
+    this.addTrimeshCollision(this.blenderModel)
   }
 
   loadFlyingMachine() {
@@ -179,6 +181,8 @@ export default class World {
     this.flyingMachine.position.set(0, 0.4, 40);
     this.flyingMachine.scale.set(0.33, 0.33, 0.33);
     this.scene.add(this.flyingMachine);
+
+    this.addTrimeshCollision(this.flyingMachine)
   }
 
   loadJapaneseHouse() {
@@ -226,50 +230,43 @@ export default class World {
     this.japaneseHouse.scale.set(0.9, 0.9, 0.9);
     this.scene.add(this.japaneseHouse);
 
-    // Interior light inside the house
+    this.addTrimeshCollision(this.japaneseHouse)
+
+    // Interior light
     this.houseLight = new THREE.PointLight(0xffaa55, 5, 15)
     this.houseLight.position.set(-40, 2, -5)
     this.houseLight.castShadow = true
     this.scene.add(this.houseLight)
 
-    // Line of lights from z0 to z30 at x40 y3
-    // 7 lights spaced every 5 units
+    // Line of lights from z0 to z30 at x-40 y3
     const numLights = 7
     for (let i = 0; i <= numLights; i++) {
-      const z = (i / numLights) * 30 // spreads from z0 to z30
+      const z = (i / numLights) * 30
       const pathLight = new THREE.PointLight(0xffdd99, 3, 8)
       pathLight.position.set(-40, 3, z)
       this.scene.add(pathLight)
     }
+
+    // Line of lights from x-38 to x-60 at y2 z19
     const numLights2 = 8
-for (let i = 0; i <= numLights2; i++) {
-  const x = -38 - (i / numLights2) * (60 - 38) // spreads from x38 to x60
-  const pathLight2 = new THREE.PointLight(0xffdd99, 3, 8)
-  pathLight2.position.set(x, 2, 19)
-  this.scene.add(pathLight2)
-}
+    for (let i = 0; i <= numLights2; i++) {
+      const x = -38 - (i / numLights2) * (60 - 38)
+      const pathLight2 = new THREE.PointLight(0xffdd99, 3, 8)
+      pathLight2.position.set(x, 2, 19)
+      this.scene.add(pathLight2)
+    }
   }
 
-waitForPhysicsThenAddTrimesh(model) {
-  const tryAdd = () => {
+  addTrimeshCollision(model) {
     const physics = this.environment?.physics
     if (physics && physics.ready) {
       model.updateWorldMatrix(true, true)
       physics.createTrimeshFromModel(model)
       console.log('✅ Trimesh collision added for model')
-      return true
+    } else {
+      console.warn('⚠️ Physics not ready when trying to add trimesh')
     }
-    return false
   }
-  
-  // Try immediately first
-  if (!tryAdd()) {
-    // If not ready yet, poll
-    const interval = setInterval(() => {
-      if (tryAdd()) clearInterval(interval)
-    }, 100)
-  }
-}
 
   update() {
     if (this.movableBox && this.movableBox.update) {
