@@ -1,4 +1,3 @@
-// src/Experience/Physics.js
 import * as RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 
@@ -6,54 +5,93 @@ export default class Physics {
     constructor() {
         this.experience = window.experience;
         this.scene = this.experience.scene;
-        
-        // Initialize Rapier
+        this.ready = false;
         this.initPhysics();
     }
-    
+
     async initPhysics() {
-        // Initialize Rapier
         await RAPIER.init();
-        
-        // Create physics world
+
         this.gravity = { x: 0.0, y: -9.81, z: 0.0 };
         this.world = new RAPIER.World(this.gravity);
-        
-        
-        // Create ground plane 
+        this.ready = true;
+
+        // Flat ground plane
         this.createGround();
+
+        // Notify that physics is ready
+        if (this.onReady) this.onReady();
     }
-    
+
     createGround() {
-        // Create a static ground plane
-        let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0);
+        let groundColliderDesc = RAPIER.ColliderDesc.cuboid(200.0, 0.1, 200.0);
         this.groundCollider = this.world.createCollider(groundColliderDesc);
-        
-        // Position it at y = -1 
-        this.groundCollider.setTranslation({ x: 0.0, y: -1.0, z: 0.0 });
+        this.groundCollider.setTranslation({ x: 0.0, y: -0.1, z: 0.0 });
     }
-    
-    createBox(position = { x: 0, y: 5, z: 0 }, size = { x: 1, y: 1, z: 1 }) {
-        // Create rigid body
+
+    createPlayerBody(position = { x: 0, y: 3, z: 0 }) {
         let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-            .setTranslation(position.x, position.y, position.z);
+            .setTranslation(position.x, position.y, position.z)
+            .lockRotations() // prevent tipping over
         let rigidBody = this.world.createRigidBody(rigidBodyDesc);
-        
-        // Create a colisoion outline for the box
-        let colliderDesc = RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2);
-        let collider = this.world.createCollider(colliderDesc, rigidBody);
-        
-        return {
-            rigidBody: rigidBody,
-            collider: collider
-        };
+
+        let colliderDesc = RAPIER.ColliderDesc.capsule(0.4, 0.3)
+            .setFriction(0.5)
+        this.world.createCollider(colliderDesc, rigidBody);
+
+        return rigidBody;
     }
-    
+
+    createTrimeshFromModel(model) {
+        if (!this.ready) return;
+
+        model.traverse((child) => {
+            if (!child.isMesh) return;
+
+            const geometry = child.geometry;
+            if (!geometry) return;
+
+            // Get world transform
+            child.updateWorldMatrix(true, false);
+            const worldMatrix = child.matrixWorld;
+
+            // Get vertices
+            const posAttr = geometry.attributes.position;
+            if (!posAttr) return;
+
+            const vertices = new Float32Array(posAttr.count * 3);
+            const tempVec = new THREE.Vector3();
+
+            for (let i = 0; i < posAttr.count; i++) {
+                tempVec.fromBufferAttribute(posAttr, i);
+                tempVec.applyMatrix4(worldMatrix);
+                vertices[i * 3] = tempVec.x;
+                vertices[i * 3 + 1] = tempVec.y;
+                vertices[i * 3 + 2] = tempVec.z;
+            }
+
+            // Get indices
+            let indices;
+            if (geometry.index) {
+                indices = new Uint32Array(geometry.index.array);
+            } else {
+                // Non-indexed geometry
+                indices = new Uint32Array(posAttr.count);
+                for (let i = 0; i < posAttr.count; i++) indices[i] = i;
+            }
+
+            try {
+                const colliderDesc = RAPIER.ColliderDesc.trimesh(vertices, indices);
+                this.world.createCollider(colliderDesc);
+            } catch (e) {
+                console.warn('Trimesh failed for mesh:', child.name, e);
+            }
+        });
+    }
+
     update() {
-        // Step the class
-        if (this.world) {
+        if (this.world && this.ready) {
             this.world.step();
         }
     }
-
 }
