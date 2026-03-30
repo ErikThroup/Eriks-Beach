@@ -245,7 +245,7 @@ export default class World {
 for (let i = 0; i <= numLights2; i++) {
   const x = -38 - (i / numLights2) * (60 - 38) // spreads from x38 to x60
   const pathLight2 = new THREE.PointLight(0xffdd99, 3, 8)
-  pathLight2.position.set(x, 2, 22)
+  pathLight2.position.set(x, 2, 19)
   this.scene.add(pathLight2)
 }
   }
