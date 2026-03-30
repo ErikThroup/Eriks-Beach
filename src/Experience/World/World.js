@@ -83,7 +83,7 @@ export default class World {
       },
       {
         name: "Japanese House",
-        position: { x: 40, y: 0.5, z: -5 },
+        position: { x: -40, y: 0.51, z: -5 },
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "Japanese House",
@@ -222,13 +222,13 @@ export default class World {
       }
     })
 
-    this.japaneseHouse.position.set(40, 0, -5);
+    this.japaneseHouse.position.set(-40, 0.01, -5);
     this.japaneseHouse.scale.set(1, 1, 1);
     this.scene.add(this.japaneseHouse);
 
     // Interior light inside the house
     this.houseLight = new THREE.PointLight(0xffaa55, 5, 15)
-    this.houseLight.position.set(40, 2, -5)
+    this.houseLight.position.set(-40, 2, -5)
     this.houseLight.castShadow = true
     this.scene.add(this.houseLight)
 
@@ -238,7 +238,7 @@ export default class World {
     for (let i = 0; i <= numLights; i++) {
       const z = (i / numLights) * 30 // spreads from z0 to z30
       const pathLight = new THREE.PointLight(0xffdd99, 3, 8)
-      pathLight.position.set(40, 3, z)
+      pathLight.position.set(-40, 3, z)
       this.scene.add(pathLight)
     }
   }
