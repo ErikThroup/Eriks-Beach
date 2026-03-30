@@ -20,11 +20,8 @@ export default [
     path: "textures/wall/normal.jpg",
   },
   {
-    name: 'rockisland',    //rock island model from blender  
-    type: 'gltfModel',         
-    path: 'models/rockisland1.glb'  
+    name: 'rockisland',
+    type: 'gltfModel',
+    path: 'models/rockisland1.glb'
   },
 ];
-
-
-

@@ -25,7 +25,7 @@ export default class MovableBox {
     // Create a placeholder material first
     this.createPlaceholderMaterial()
     this.setMesh()
-    this.waitForResources()
+    // this.waitForResources()
   }
 
   setGeometry() {
@@ -44,12 +44,12 @@ export default class MovableBox {
   waitForResources() {
     if (this.resources.items.wallColorTexture) {
       // Textures are already loaded
-      // this.setTextures()
+      this.setTextures()
       this.updateMaterial()
     } else {
       // Wait for textures to load
       this.resources.on('ready', () => {
-        // this.setTextures()
+        this.setTextures()
         this.updateMaterial()
       })
     }
@@ -64,18 +64,18 @@ export default class MovableBox {
     this.textures.color.wrapS = THREE.RepeatWrapping
     this.textures.color.wrapT = THREE.RepeatWrapping
 
-    // this.textures.normal = this.resources.items.wallNormalTexture
-    // this.textures.normal.repeat.set(1.5, 1.5)
-    // this.textures.normal.wrapS = THREE.RepeatWrapping
-    // this.textures.normal.wrapT = THREE.RepeatWrapping
+    this.textures.normal = this.resources.items.wallNormalTexture
+    this.textures.normal.repeat.set(1.5, 1.5)
+    this.textures.normal.wrapS = THREE.RepeatWrapping
+    this.textures.normal.wrapT = THREE.RepeatWrapping
     
   }
 
   updateMaterial() {
     // Update existing material with textures
-    if (this.textures.color) {
+    if (this.textures.color && this.textures.normal) {
       this.material.map = this.textures.color
-      // this.material.normalMap = this.textures.normal
+      this.material.normalMap = this.textures.normal
       this.material.needsUpdate = true
     } 
   }
