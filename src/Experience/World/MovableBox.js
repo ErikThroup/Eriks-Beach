@@ -6,7 +6,7 @@ export default class MovableBox {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
-    this.resources = this.experience.resources;
+    this.resources = this.experience.resources
     
     // Physics properties
     this.velocity = new THREE.Vector3(0, 0, 0)
@@ -19,10 +19,7 @@ export default class MovableBox {
     this.keys = {}
     this.setupControls()
 
-    // Setup box geometry immediately
     this.setGeometry()
-    
-    // Create a placeholder material first
     this.createPlaceholderMaterial()
     this.setMesh()
     this.waitForResources()
@@ -33,9 +30,8 @@ export default class MovableBox {
   }
   
   createPlaceholderMaterial() {
-    // Temporary material until textures load
     this.material = new THREE.MeshStandardMaterial({
-      color: 0x808080, // Gray placeholder
+      color: 0x808080,
       roughness: 0.5,
       metalness: 0.1
     })
@@ -43,11 +39,9 @@ export default class MovableBox {
 
   waitForResources() {
     if (this.resources.items.wallColorTexture) {
-      // Textures are already loaded
       this.setTextures()
       this.updateMaterial()
     } else {
-      // Wait for textures to load
       this.resources.on('ready', () => {
         this.setTextures()
         this.updateMaterial()
@@ -57,7 +51,6 @@ export default class MovableBox {
 
   setTextures() {
     this.textures = {}
-    // Use the same textures as the Floor class
     this.textures.color = this.resources.items.wallColorTexture
     this.textures.color.encoding = THREE.sRGBEncoding
     this.textures.color.repeat.set(1.5, 1.5)
@@ -68,11 +61,9 @@ export default class MovableBox {
     this.textures.normal.repeat.set(1.5, 1.5)
     this.textures.normal.wrapS = THREE.RepeatWrapping
     this.textures.normal.wrapT = THREE.RepeatWrapping
-    
   }
 
   updateMaterial() {
-    // Update existing material with textures
     if (this.textures.color && this.textures.normal) {
       this.material.map = this.textures.color
       this.material.normalMap = this.textures.normal
@@ -89,18 +80,14 @@ export default class MovableBox {
   }
 
   setupControls() {
-    // Keyboard controls
     window.addEventListener('keydown', (event) => {
       const key = event.key.toLowerCase()
       this.keys[key] = true
-      
-      // Map arrow keys to WASD
       if (key === 'arrowup') this.keys['w'] = true
       if (key === 'arrowdown') this.keys['s'] = true
       if (key === 'arrowleft') this.keys['a'] = true
       if (key === 'arrowright') this.keys['d'] = true
       
-      // Jump when space is pressed
       if (key === ' ' && this.isOnGround) {
         this.velocity.y = this.jumpForce
         this.isOnGround = false
@@ -110,8 +97,6 @@ export default class MovableBox {
     window.addEventListener('keyup', (event) => {
       const key = event.key.toLowerCase()
       this.keys[key] = false
-      
-      // Clear arrow keys too
       if (key === 'arrowup') this.keys['w'] = false
       if (key === 'arrowdown') this.keys['s'] = false
       if (key === 'arrowleft') this.keys['a'] = false
@@ -121,23 +106,50 @@ export default class MovableBox {
 
   handleMovement() {
     if (!this.mesh) return
-    
+
+    // Get camera from experience
+    const camera = this.experience.camera.instance
+
+    // Get camera forward direction (flat on XZ plane)
+    const cameraForward = new THREE.Vector3()
+    camera.getWorldDirection(cameraForward)
+    cameraForward.y = 0
+    cameraForward.normalize()
+
+    // Get camera right direction
+    const cameraRight = new THREE.Vector3()
+    cameraRight.crossVectors(cameraForward, new THREE.Vector3(0, 1, 0))
+    cameraRight.normalize()
+
+    // Build move direction from input
+    const moveDir = new THREE.Vector3(0, 0, 0)
+    if (this.keys['w']) moveDir.add(cameraForward)
+    if (this.keys['s']) moveDir.sub(cameraForward)
+    if (this.keys['d']) moveDir.add(cameraRight)
+    if (this.keys['a']) moveDir.sub(cameraRight)
+
+    // Normalize so diagonal isn't faster
+    if (moveDir.length() > 0) {
+      moveDir.normalize()
+
+      // Rotate box to face movement direction
+      const targetAngle = Math.atan2(moveDir.x, moveDir.z)
+      this.mesh.rotation.y = targetAngle
+    }
+
     // Apply gravity
     this.velocity.y += this.gravity
-    
-    // Horizontal movement
-    const moveX = (this.keys['d'] ? 1 : 0) + (this.keys['a'] ? -1 : 0)
-    const moveZ = (this.keys['w'] ? -1 : 0) + (this.keys['s'] ? 1 : 0)
-    
-    this.velocity.x = moveX * this.moveSpeed
-    this.velocity.z = moveZ * this.moveSpeed
 
-    // Apply velocity to position
+    // Apply horizontal movement
+    this.velocity.x = moveDir.x * this.moveSpeed
+    this.velocity.z = moveDir.z * this.moveSpeed
+
+    // Apply velocity
     this.mesh.position.x += this.velocity.x
     this.mesh.position.y += this.velocity.y
     this.mesh.position.z += this.velocity.z
 
-    // Ground collision (floor is at y = 0.5 for box center)
+    // Ground collision
     if (this.mesh.position.y <= 0.5) {
       this.mesh.position.y = 0.5
       this.velocity.y = 0
