@@ -60,7 +60,7 @@ export default class World {
       },
       {
         name: "Project 3: Beach Environment",
-        position: { x: 0, y: 0.5, z: -8 },https://github.com/ErikThroup/Eriks-Beach/blob/main/src/Experience/World/World.js
+        position: { x: 0, y: 0.5, z: -8 },
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "🌊 Beach Environment",

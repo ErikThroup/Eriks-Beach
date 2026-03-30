@@ -1,7 +1,7 @@
 export default {
-  base: './',
+  base: '/Eriks-Beach/',
   build: {
-    outDir: 'dist', 
+    outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
     copyPublicDir: true,
