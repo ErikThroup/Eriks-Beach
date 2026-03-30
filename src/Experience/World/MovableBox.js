@@ -124,7 +124,6 @@ export default class MovableBox {
   handlePhysicsMovement() {
     const camera = this.experience.camera.instance
 
-    // Get camera forward/right on XZ plane
     const cameraForward = new THREE.Vector3()
     camera.getWorldDirection(cameraForward)
     cameraForward.y = 0
@@ -146,21 +145,12 @@ export default class MovableBox {
       this.mesh.rotation.y = targetAngle
     }
 
-    // Get current velocity
     const vel = this.playerBody.linvel()
-
-    // Apply horizontal movement
     const newVelX = moveDir.x * this.moveSpeed
     const newVelZ = moveDir.z * this.moveSpeed
 
-    // Check if on ground by casting a short ray downward
-    const pos = this.playerBody.translation()
-    const ray = new (window.RAPIER || {}).Ray?.({ x: pos.x, y: pos.y, z: pos.z }, { x: 0, y: -1, z: 0 })
-
-    // Simple ground check — if vertical velocity is near zero and position is low
     this.isOnGround = Math.abs(vel.y) < 0.5
 
-    // Jump
     if (this.keys[' '] && this.isOnGround) {
       this.playerBody.setLinvel({ x: newVelX, y: this.jumpForce, z: newVelZ }, true)
       this.isOnGround = false
@@ -168,11 +158,9 @@ export default class MovableBox {
       this.playerBody.setLinvel({ x: newVelX, y: vel.y, z: newVelZ }, true)
     }
 
-    // Sync mesh to physics body
     const translation = this.playerBody.translation()
     this.mesh.position.set(translation.x, translation.y, translation.z)
-
-  }
+}
 
   handleFallbackMovement() {
     // Fallback if physics not ready yet
