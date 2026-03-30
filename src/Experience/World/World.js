@@ -225,6 +225,22 @@ export default class World {
     this.japaneseHouse.position.set(40, 0, -5);
     this.japaneseHouse.scale.set(1, 1, 1);
     this.scene.add(this.japaneseHouse);
+
+    // Interior light inside the house
+    this.houseLight = new THREE.PointLight(0xffaa55, 5, 15)
+    this.houseLight.position.set(40, 2, -5)
+    this.houseLight.castShadow = true
+    this.scene.add(this.houseLight)
+
+    // Line of lights from z0 to z30 at x40 y3
+    // 7 lights spaced every 5 units
+    const numLights = 7
+    for (let i = 0; i <= numLights; i++) {
+      const z = (i / numLights) * 30 // spreads from z0 to z30
+      const pathLight = new THREE.PointLight(0xffdd99, 3, 8)
+      pathLight.position.set(40, 3, z)
+      this.scene.add(pathLight)
+    }
   }
 
   update() {
