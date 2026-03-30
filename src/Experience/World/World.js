@@ -121,7 +121,7 @@ export default class World {
         data: {
           title: "Smart Self Monitoring Mushroom Grow Kit",
           description: "This was a group project in M2 for smart environments. We chose to make a smart mushroom grow kit that uses sensors to monitor the mushrooms and the environment they grow in. The system could water, heat and refresh the air in the grow kit based on sensor data. We also made a website and Processing program to monitor the mushrooms and control the system.",
-          images: [],
+          images: ["./images/unnamed.jpg"],
           videoUrl: "https://www.youtube.com/embed/oSsGmyDUjwg",
         }
       }
