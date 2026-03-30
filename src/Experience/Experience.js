@@ -55,12 +55,12 @@ export default class Experience {
   }
 
   // On Update
-  update() {
-    this.camera.update();
-    this.world.update();
-    this.renderer.update();
-    this.controls.update();
-  }
+update() {
+  this.camera.update();
+  this.world.update();
+  this.renderer.update();
+  this.controls.update();
+}
 
   // On Destroy
   destroy() {

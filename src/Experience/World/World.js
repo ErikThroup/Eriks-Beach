@@ -268,18 +268,23 @@ export default class World {
     }
   }
 
-  update() {
-    if (this.movableBox && this.movableBox.update) {
-      this.movableBox.update();
-    }
-
-    if (this.movableBox && this.movableBox.mesh) {
-      const playerPosition = this.movableBox.mesh.position;
-      this.time += 0.016;
-
-      this.triggerZones.forEach(zone => {
-        zone.update(playerPosition, this.time);
-      });
-    }
+update() {
+  // Step physics world every frame
+  if (this.environment?.physics) {
+    this.environment.physics.update()
   }
+
+  if (this.movableBox && this.movableBox.update) {
+    this.movableBox.update();
+  }
+
+  if (this.movableBox && this.movableBox.mesh) {
+    const playerPosition = this.movableBox.mesh.position;
+    this.time += 0.016;
+
+    this.triggerZones.forEach(zone => {
+      zone.update(playerPosition, this.time);
+    });
+  }
+}
 }
