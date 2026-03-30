@@ -16,7 +16,6 @@ export default class World {
 
     this.environment = new Environment();
 
-    // Single 'ready' listener for everything
     this.resources.on("ready", () => {
       console.log('✅ All resources ready!');
 
@@ -26,9 +25,10 @@ export default class World {
       this.loadBlenderModel();
       this.createTriggerZones();
 
+      // Follow mode is the default camera mode
       setTimeout(() => {
         if (this.experience.camera && this.movableBox && this.movableBox.mesh) {
-          this.experience.camera.setOrbitTarget(this.movableBox.mesh);
+          this.experience.camera.setFollowTarget(this.movableBox.mesh)
         }
       }, 1000);
     });
@@ -66,7 +66,7 @@ export default class World {
           title: "🌊 Beach Environment",
           description: "Created a complete beach environment with sand, water effects, and atmospheric lighting using Three.js.",
           images: ["./images/beach.jpg"],
-          videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID", // replace or set null
+          videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID",
         }
       }
     ];
@@ -83,18 +83,17 @@ export default class World {
     if (!model) return;
 
     this.blenderModel = model.scene.clone();
-    this.blenderModel.position.set(50, 0, 25);
+    this.blenderModel.position.set(0, -2, -20);
     this.blenderModel.scale.set(1, 1, 1);
     this.scene.add(this.blenderModel);
   }
 
-  // Single update method
   update() {
     if (this.movableBox && this.movableBox.update) {
       this.movableBox.update();
     }
 
-  if (this.movableBox && this.movableBox.mesh) {
+    if (this.movableBox && this.movableBox.mesh) {
       const playerPosition = this.movableBox.mesh.position;
       this.time += 0.016;
 
@@ -103,4 +102,4 @@ export default class World {
       });
     }
   }
-}  // <-- this closing brace must be here, closing the World class
+}

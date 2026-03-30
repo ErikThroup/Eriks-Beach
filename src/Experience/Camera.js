@@ -8,12 +8,10 @@ export default class Camera {
     this.scene = this.experience.scene
     this.canvas = this.experience.canvas
 
-    // Camera modes
-    this.mode = 'orbit' // 'orbit' or 'follow'
+    this.mode = 'orbit'
     this.orbitTarget = new THREE.Vector3(0, 1, 0)
     this.followTarget = null
     
-    // Follow mode settings - fixed distance from box
     this.followDistance = 8
     this.followHeight = 3
     
@@ -37,24 +35,17 @@ export default class Camera {
     this.controls = new OrbitControls(this.instance, this.canvas)
     this.controls.enableDamping = true
     this.controls.dampingFactor = 0.05
-    
-    // Set orbit limits
     this.controls.minDistance = 3
     this.controls.maxDistance = 50
     this.controls.maxPolarAngle = Math.PI / 1.5
     this.controls.minPolarAngle = 0.3
-    
     this.controls.target.copy(this.orbitTarget)
   }
 
   setFollowTarget(targetMesh) {
     this.followTarget = targetMesh
     this.mode = 'follow'
-
-    // Keep controls enabled so mouse still works
     this.controls.enabled = true
-
-    // Lock zoom to fixed follow distance
     this.controls.minDistance = this.followDistance
     this.controls.maxDistance = this.followDistance
   }
@@ -63,8 +54,6 @@ export default class Camera {
     this.orbitTargetMesh = targetMesh
     this.mode = 'orbit'
     this.controls.enabled = true
-
-    // Restore zoom range for orbit mode
     this.controls.minDistance = 3
     this.controls.maxDistance = 50
   }
@@ -75,18 +64,13 @@ export default class Camera {
     } else {
       this.updateOrbitMode()
     }
-
     this.controls.update()
   }
 
   updateFollowMode() {
     if (!this.followTarget || !this.followTarget.position) return
-
     const boxPos = this.followTarget.position.clone()
-    boxPos.y += 0.5 // Look at center of box
-
-    // Lock orbit controls target to the box every frame
-    // This makes the camera orbit around the box while keeping mouse control
+    boxPos.y += 0.5
     this.controls.target.copy(boxPos)
   }
 
@@ -101,7 +85,7 @@ export default class Camera {
     window.addEventListener('keydown', (event) => {
       const key = event.key.toLowerCase()
       
-      // F key - follow mode (orbit around box, fixed distance)
+      // F - follow mode (fixed distance, mouse rotation)
       if (key === 'f') {
         const world = this.experience.world
         if (world && world.movableBox && world.movableBox.mesh) {
@@ -109,7 +93,7 @@ export default class Camera {
         }
       }
       
-      // O key - free orbit mode
+      // O - free orbit mode
       if (key === 'o') {
         const world = this.experience.world
         if (world && world.movableBox && world.movableBox.mesh) {
@@ -117,7 +101,7 @@ export default class Camera {
         }
       }
       
-      // R key - reset camera
+      // R - reset camera
       if (key === 'r') {
         this.mode = 'orbit'
         this.controls.minDistance = 3
@@ -130,12 +114,10 @@ export default class Camera {
         this.instance.position.set(0, 10, 0)
         this.controls.target.set(0, 0, 0)
       }
-      
       if (key === '2') {
         this.instance.position.set(10, 3, 0)
         this.controls.target.set(0, 1, 0)
       }
-      
       if (key === '3') {
         this.instance.position.set(0, 3, 10)
         this.controls.target.set(0, 1, 0)
