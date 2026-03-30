@@ -24,6 +24,7 @@ export default class World {
 
       this.loadBlenderModel();
       this.loadFlyingMachine();
+      this.loadJapaneseHouse();
       this.createTriggerZones();
 
       setTimeout(() => {
@@ -68,14 +69,26 @@ export default class World {
           images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.webp"],
           videoUrl: null,
         }
-      },   {
+      },
+      {
         name: "Da Vinci Glider",
         position: { x: -7, y: 0.5, z: 40 },
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "Da Vinci Glider",
-          description: "This is a model of Leonardo da Vinci's glider that I made in blender using this photo as a reference. I had to turn down the polygons to fit the model into the portfolio.",
-          images: ["./images/design-for-flying-machine-leonardo-da-vinci.jpg"],
+          description: "This is a model of Leonardo da Vinci's glider that I made in Blender using a historical drawing as reference. I had to reduce the polygon count to fit the model into the portfolio.",
+          images: ["./images/design-for-a-flying-machine2.jpg"],
+          videoUrl: null,
+        }
+      },
+      {
+        name: "Japanese House",
+        position: { x: 40, y: 0.5, z: -5 },
+        size: { x: 5, y: 2, z: 5 },
+        data: {
+          title: "Japanese House",
+          description: "A 3D model of a traditional Japanese house built in Blender, featuring tatami floors, wooden beams, paper screens and a tiled roof.",
+          images: ["./images/Kano-Isenin-Naganobu.webp"],
           videoUrl: null,
         }
       },
@@ -137,7 +150,6 @@ export default class World {
 
     this.flyingMachine = model.scene.clone();
 
-    // Apply textures based on mesh names
     const denim = this.resources.items['flyingMachineDenim']
     const wood = this.resources.items['flyingMachineWood']
     const goldColor = this.resources.items['flyingMachineGoldColor']
@@ -145,9 +157,7 @@ export default class World {
 
     this.flyingMachine.traverse((child) => {
       if (child.isMesh) {
-        // Log mesh names so you can see what's in the model
         console.log('Flying machine mesh:', child.name)
-
         const name = child.name.toLowerCase()
         if (name.includes('denim') || name.includes('fabric')) {
           child.material = new THREE.MeshStandardMaterial({ map: denim })
@@ -161,16 +171,60 @@ export default class World {
             roughness: 0.3
           })
         }
+        child.castShadow = true
+        child.receiveShadow = true
+      }
+    })
+
+    this.flyingMachine.position.set(0, 0.4, 40);
+    this.flyingMachine.scale.set(0.33, 0.33, 0.33);
+    this.scene.add(this.flyingMachine);
+  }
+
+  loadJapaneseHouse() {
+    const model = this.resources.items['japaneseHouse'];
+    if (!model) return;
+
+    this.japaneseHouse = model.scene.clone();
+
+    const tatami = this.resources.items['houseTatami']
+    const wood = this.resources.items['houseWood']
+    const wall = this.resources.items['houseWall']
+    const roof = this.resources.items['houseRoof']
+    const concrete = this.resources.items['houseConcrete']
+    const paper = this.resources.items['housePaper']
+
+    this.japaneseHouse.traverse((child) => {
+      if (child.isMesh) {
+        console.log('Japanese house mesh:', child.name)
+        const name = child.name.toLowerCase()
+
+        if (name.includes('tatami') || name.includes('floor') || name.includes('mat')) {
+          child.material = new THREE.MeshStandardMaterial({ map: tatami })
+        } else if (name.includes('wood') || name.includes('beam') || name.includes('plank')) {
+          child.material = new THREE.MeshStandardMaterial({ map: wood })
+        } else if (name.includes('wall') || name.includes('plaster')) {
+          child.material = new THREE.MeshStandardMaterial({ map: wall })
+        } else if (name.includes('roof') || name.includes('tile')) {
+          child.material = new THREE.MeshStandardMaterial({ map: roof })
+        } else if (name.includes('stone') || name.includes('concrete') || name.includes('base')) {
+          child.material = new THREE.MeshStandardMaterial({ map: concrete })
+        } else if (name.includes('paper') || name.includes('screen') || name.includes('shoji')) {
+          child.material = new THREE.MeshStandardMaterial({
+            map: paper,
+            transparent: true,
+            opacity: 0.8
+          })
+        }
 
         child.castShadow = true
         child.receiveShadow = true
       }
     })
 
-    // 40 metres away along Z axis
-    this.flyingMachine.position.set(0, 0.4, 40);
-    this.flyingMachine.scale.set(0.33, 0.33, 0.33);
-    this.scene.add(this.flyingMachine);
+    this.japaneseHouse.position.set(40, 0, -5);
+    this.japaneseHouse.scale.set(1, 1, 1);
+    this.scene.add(this.japaneseHouse);
   }
 
   update() {
