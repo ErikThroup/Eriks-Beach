@@ -116,7 +116,7 @@ export default class World {
     if (!model) return;
 
     this.blenderModel = model.scene.clone();
-    this.blenderModel.position.set(0, -2, -20);
+    this.blenderModel.position.set(0, -2, -25);
     this.blenderModel.scale.set(1, 1, 1);
     this.scene.add(this.blenderModel);
   }
@@ -158,8 +158,8 @@ export default class World {
     })
 
     // 40 metres away along Z axis
-    this.flyingMachine.position.set(0, 0, -40);
-    this.flyingMachine.scale.set(1, 1, 1);
+    this.flyingMachine.position.set(0, 0.1, 40);
+    this.flyingMachine.scale.set(0.33, 0.33, 0.33);
     this.scene.add(this.flyingMachine);
   }
 
