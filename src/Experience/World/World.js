@@ -75,7 +75,7 @@ export default class World {
         data: {
           title: "Hackathon-Video PSA",
           description: "This was a group project in M1 where we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
-          images: ["./images/beach.jpg"],
+          images: [null],
           videoUrl: "https://www.youtube.com/embed/k4tOGeTYqSQ",
         }
       },
@@ -86,7 +86,7 @@ export default class World {
         data: {
           title: "Creature Assignment",
           description: "This assignment was just all around fun — I got to program flying dragons that change colors!",
-          images: ["./images/beach.jpg"],
+          images: [null],
           videoUrl: "https://www.youtube.com/embed/p5UYFP2AKfU",
         }
       },
@@ -97,7 +97,7 @@ export default class World {
         data: {
           title: "Smart Self Monitoring Mushroom Grow Kit",
           description: "This was a group project in M2 for smart environments. We chose to make a smart mushroom grow kit that uses sensors to monitor the mushrooms and the environment they grow in. The system could water, heat and refresh the air in the grow kit based on sensor data. We also made a website and Processing program to monitor the mushrooms and control the system.",
-          images: [],
+          images: [null],
           videoUrl: "https://www.youtube.com/embed/oSsGmyDUjwg",
         }
       }

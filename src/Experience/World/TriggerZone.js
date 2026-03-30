@@ -10,6 +10,7 @@ export default class TriggerZone {
 
     this.createTriggerBox()
     this.createVisualIndicator()
+    this.createBanner()
     this.createPopupElement()
   }
 
@@ -59,6 +60,47 @@ export default class TriggerZone {
       this.scene.add(particle)
       this.particles.push(particle)
     }
+  }
+
+  createBanner() {
+    // Create canvas texture with the zone title
+    const canvas = document.createElement('canvas')
+    canvas.width = 512
+    canvas.height = 128
+    const ctx = canvas.getContext('2d')
+
+    // Background
+    ctx.fillStyle = 'rgba(10, 10, 20, 0.85)'
+    ctx.roundRect(0, 0, 512, 128, 20)
+    ctx.fill()
+
+    // Border
+    ctx.strokeStyle = '#ffaa44'
+    ctx.lineWidth = 6
+    ctx.roundRect(0, 0, 512, 128, 20)
+    ctx.stroke()
+
+    // Text
+    ctx.fillStyle = '#ffaa44'
+    ctx.font = 'bold 48px Segoe UI, Arial, sans-serif'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(this.zoneData.title, 256, 64)
+
+    const texture = new THREE.CanvasTexture(canvas)
+
+    const bannerGeometry = new THREE.PlaneGeometry(4, 1)
+    const bannerMaterial = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    })
+
+    this.banner = new THREE.Mesh(bannerGeometry, bannerMaterial)
+    // Float above the ring
+    this.banner.position.set(this.position.x, this.position.y + 2.5, this.position.z)
+    this.scene.add(this.banner)
   }
 
   createPopupElement() {
@@ -205,7 +247,6 @@ export default class TriggerZone {
     console.log(`🚪 Left: ${this.zoneData.title}`)
     if (this.ring) this.ring.material.emissiveIntensity = 0.2
     this.hidePopup()
-    // Return focus to canvas so keyboard controls work again
     document.querySelector('canvas.webgl').focus()
   }
 
@@ -217,8 +258,19 @@ export default class TriggerZone {
     })
   }
 
+  // Pass playerPosition in so banner can face the box
+  updateBanner(playerPosition) {
+    if (!this.banner) return
+    this.banner.lookAt(
+      playerPosition.x,
+      this.banner.position.y,
+      playerPosition.z
+    )
+  }
+
   update(playerPosition, time) {
     this.checkCollision(playerPosition)
     this.updateParticles(time)
+    this.updateBanner(playerPosition)
   }
 }
