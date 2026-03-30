@@ -20,24 +20,24 @@ export default class Physics {
         if (this.onReady) this.onReady();
     }
 
-    createGround() {
-        let groundColliderDesc = RAPIER.ColliderDesc.cuboid(200.0, 0.1, 200.0);
-        this.groundCollider = this.world.createCollider(groundColliderDesc);
-        this.groundCollider.setTranslation({ x: 0.0, y: -0.1, z: 0.0 });
-    }
+createGround() {
+    let groundColliderDesc = RAPIER.ColliderDesc.cuboid(200.0, 0.1, 200.0);
+    this.groundCollider = this.world.createCollider(groundColliderDesc);
+    this.groundCollider.setTranslation({ x: 0.0, y: 0.0, z: 0.0 });
+}
 
-    createPlayerBody(position = { x: 0, y: 3, z: 0 }) {
-        let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-            .setTranslation(position.x, position.y, position.z)
-            .lockRotations()
-        let rigidBody = this.world.createRigidBody(rigidBodyDesc);
+createPlayerBody(position = { x: 0, y: 5, z: 0 }) {
+    let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+        .setTranslation(position.x, position.y, position.z)
+        .lockRotations()
+    let rigidBody = this.world.createRigidBody(rigidBodyDesc);
 
-        let colliderDesc = RAPIER.ColliderDesc.cuboid(0.3, 0.3, 0.3)
-            .setFriction(0.5)
-        this.world.createCollider(colliderDesc, rigidBody);
+    let colliderDesc = RAPIER.ColliderDesc.cuboid(0.3, 0.5, 0.3)
+        .setFriction(0.5)
+    this.world.createCollider(colliderDesc, rigidBody);
 
-        return rigidBody;
-    }
+    return rigidBody;
+}
 
     createTrimeshFromModel(model) {
         if (!this.ready) return;
