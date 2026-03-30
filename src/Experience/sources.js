@@ -25,9 +25,9 @@ export default [
     path: 'models/rockisland1.glb'
   },
   {
-    name: 'flyingMachine',
-    type: 'gltfModel',
-    path: 'models/A2ErikThroupSanJuan10.glb'
+  name: 'flyingMachine',
+  type: 'fbxModel',
+  path: 'models/A2ErikThroupSanJuan10.fbx'
   },
   {
     name: 'flyingMachineDenim',
