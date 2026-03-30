@@ -68,6 +68,16 @@ export default class World {
           images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.webp"],
           videoUrl: null,
         }
+      },   {
+        name: "leonardo da vinci glider",
+        position: { x: 5, y: 0.5, z: 40 },
+        size: { x: 5, y: 2, z: 5 },
+        data: {
+          title: "leonardo da vinci glider",
+          description: "This is a model of Leonardo da Vinci's glider that I made in blender using this photo as a reference.",
+          images: ["./images/design-for-flying-machine-leonardo-da-vinci.jpg"],
+          videoUrl: null,
+        }
       },
       {
         name: "Hackathon-Video PSA",
