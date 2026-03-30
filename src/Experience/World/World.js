@@ -36,37 +36,72 @@ export default class World {
 
   createTriggerZones() {
     const zones = [
+      
+        {
+        name: "About ME",
+        position: { x: 0, y: 0.5, z: -15 },
+        size: { x: 5, y: 2, z: 5 },
+        data: {
+          title: "About ME",
+          description: "THi! I’m Erik an internatonal student, studying Creative technology at the Vrije Universiteit van Amsterdam. Im highly motivated to do well in my course to find a career in a field I’ll find fun forfilling.  I love coming up with technical solutions to all sorts of problems in my daily life so I think this course will be a good fit. \/n\ Bit more about me; I was born in Spain in 2003 but I grewup in Amsterdam and attented an international school. I’m a very active person and I love to hike and be outdoors in nature. I able to program in quite a few languages and know the fundamentals of webdevelopment.his assignment was just all around fun I got to program flying dragons that change colors.  was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
+          images: ["./images/WhatsApp+Image+2025-10-21+at+23.18.41_bfca53af.jpeg"],
+          videoUrl: null,
+        }
+      
+      },
       {
-        name: "Project 1: 3D Modeling",
+        name: "Theme 2: Sense-Process-Act",
         position: { x: 5, y: 0.5, z: 5 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "🏝️ Rock Island Model",
-          description: "I modeled this rock island in Blender for my beach portfolio. It features detailed geometry and realistic materials.",
-          images: ["./images/rock-island.jpg"],
+          title: "Theme 2: Sense-Process-Act",
+          description: "This has probaly been one of my favoret assignments. I had to design a dutch windmill in fusion 360 with spesific size peramiters. I was told that there would be a chance for my design to be 3d printed and lazer cut, which is why I was so motivated to do this assignment and basicaly finished it the moment we were told about it.",
+          images: ["./images/Screenshot+2025-10-21+120628.png"],
           videoUrl: null,
         }
       },
       {
-        name: "Project 2: Three.js Portfolio",
+        name: "Soldering Chrismas tree",
         position: { x: -5, y: 0.5, z: 5 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "💻 Interactive 3D Portfolio",
-          description: "A fully interactive 3D environment built with Three.js, featuring custom camera controls, physics, and imported Blender models.",
-          images: ["./images/portfolio.jpg"],
+          title: "Soldering Chrismas tree",
+          description: "This is the LED chrismas tree I soldered for my M1 workshop. This was a great operunity to learn how to solder and the mechanics behind soldering.",
+          images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.jpeg"],
           videoUrl: null,
         }
       },
       {
-        name: "Project 3: Beach Environment",
-        position: { x: 0, y: 0.5, z: -8 },
+        name: "Hackathon-Video PSA",
+        position: { x: 5, y: 0.5, z: -10 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "🌊 Beach Environment",
-          description: "Created a complete beach environment with sand, water effects, and atmospheric lighting using Three.js.",
+          title: "Hackathon-Video PSA",
+          description: "This was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
           images: ["./images/beach.jpg"],
-          videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID",
+          videoUrl: "https://www.youtube.com/watch?v=k4tOGeTYqSQ",
+        }
+      },
+      {
+        name: "Creature assignment",
+        position: { x: -5, y: 0.5, z: -10 },
+        size: { x: 5, y: 2, z: 5 },
+        data: {
+          title: "Creature assignment",
+          description: "This assignment was just all around fun I got to program flying dragons that change colors.  was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
+          images: ["./images/beach.jpg"],
+          videoUrl: "https://www.youhttps://www.youtube.com/watch?v=p5UYFP2AKfUtube.com/watch?v=k4tOGeTYqSQ",
+        }
+      }
+            {
+        name: "Creature assignment",
+        position: { x: -5, y: 0.5, z: -10 },
+        size: { x: 5, y: 2, z: 5 },
+        data: {
+          title: "Creature assignment",
+          description: "This assignment was just all around fun I got to program flying dragons that change colors.  was a group project I had in M1 in which we had to make a persuasive video to change a negative behavior. Our group decided to make a video focused on bike safety.",
+          images: ["./images/beach.jpg"],
+          videoUrl: "https://www.youhttps://www.youtube.com/watch?v=p5UYFP2AKfUtube.com/watch?v=k4tOGeTYqSQ",
         }
       }
     ];
