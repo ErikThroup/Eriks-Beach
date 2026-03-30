@@ -22,7 +22,7 @@ export default class MovableBox {
   }
 
  setGeometry() {
-  this.geometry = new THREE.BoxGeometry(0.6, 0.6, 0.6) // make it a cube not tall
+  this.geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8) 
 }
 
   createPlaceholderMaterial() {
