@@ -9,19 +9,18 @@ export default class Physics {
         this.initPhysics();
     }
 
-    async initPhysics() {
-        await RAPIER.init();
-
-        this.gravity = { x: 0.0, y: -9.81, z: 0.0 };
-        this.world = new RAPIER.World(this.gravity);
-        this.ready = true;
-
-        // Flat ground plane
-        this.createGround();
-
-        // Notify that physics is ready
-        if (this.onReady) this.onReady();
-    }
+async initPhysics() {
+    await RAPIER.init();
+    this.gravity = { x: 0.0, y: -9.81, z: 0.0 };
+    this.world = new RAPIER.World(this.gravity);
+    this.ready = true;
+    this.createGround();
+    
+    // Fire event so World.js knows physics is ready
+    window.dispatchEvent(new Event('physicsReady'))
+    console.log('✅ Physics ready!')
+    if (this.onReady) this.onReady();
+}
 
     createGround() {
         let groundColliderDesc = RAPIER.ColliderDesc.cuboid(200.0, 0.1, 200.0);
@@ -88,6 +87,21 @@ export default class Physics {
             }
         });
     }
+    waitForPhysicsThenAddTrimesh(model) {
+    const tryAdd = () => {
+        const physics = this.environment?.physics
+        if (physics && physics.ready) {
+            model.updateWorldMatrix(true, true)
+            physics.createTrimeshFromModel(model)
+            console.log('✅ Trimesh collision added for model')
+        } else {
+            setTimeout(tryAdd, 200)
+        }
+    }
+    // Try immediately and also listen for the physics ready event
+    tryAdd()
+    window.addEventListener('physicsReady', () => tryAdd(), { once: true })
+}
 
     update() {
         if (this.world && this.ready) {
