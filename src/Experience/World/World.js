@@ -60,14 +60,14 @@ export default class World {
         }
       },
       {
-        name: "Soldering Christmas Tree",
+        name: "Christmas Tree",
         position: { x: -5, y: 0.5, z: 5 },
         size: { x: 5, y: 2, z: 5 },
         data: {
-          title: "Soldering Christmas Tree",
+          title: "Christmas Tree",
           description: "This is the LED Christmas tree I soldered for my M1 workshop. This was a great opportunity to learn how to solder and the mechanics behind it.",
           images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.webp"],
-          videoUrl: null,
+          videoUrl: "youtube.com/watch?v=dAFzA9CQL1M&time_continue=0&source_ve_path=NzY3NTg&embeds_referring_euri=https%3A%2F%2Fdocs.google.com%2F&embeds_referring_origin=https%3A%2F%2Fdocs.google.com",
         }
       },
       {
@@ -243,7 +243,7 @@ export default class World {
     }
     const numLights2 = 8
 for (let i = 0; i <= numLights2; i++) {
-  const x = 38 + (i / numLights2) * (60 - 38) // spreads from x38 to x60
+  const x = -38 - (i / numLights2) * (60 - 38) // spreads from x38 to x60
   const pathLight2 = new THREE.PointLight(0xffdd99, 3, 8)
   pathLight2.position.set(x, 2, 22)
   this.scene.add(pathLight2)
