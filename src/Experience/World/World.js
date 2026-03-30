@@ -67,7 +67,7 @@ export default class World {
           title: "Christmas Tree",
           description: "This is the LED Christmas tree I soldered for my M1 workshop. This was a great opportunity to learn how to solder and the mechanics behind it.",
           images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.webp"],
-          videoUrl: "youtube.com/watch?v=dAFzA9CQL1M&time_continue=0&source_ve_path=NzY3NTg&embeds_referring_euri=https%3A%2F%2Fdocs.google.com%2F&embeds_referring_origin=https%3A%2F%2Fdocs.google.com",
+          videoUrl: "https://www.youtube.com/embed/dAFzA9CQL1M",
         }
       },
       {
@@ -249,6 +249,27 @@ for (let i = 0; i <= numLights2; i++) {
   this.scene.add(pathLight2)
 }
   }
+
+waitForPhysicsThenAddTrimesh(model) {
+  const tryAdd = () => {
+    const physics = this.environment?.physics
+    if (physics && physics.ready) {
+      model.updateWorldMatrix(true, true)
+      physics.createTrimeshFromModel(model)
+      console.log('✅ Trimesh collision added for model')
+      return true
+    }
+    return false
+  }
+  
+  // Try immediately first
+  if (!tryAdd()) {
+    // If not ready yet, poll
+    const interval = setInterval(() => {
+      if (tryAdd()) clearInterval(interval)
+    }, 100)
+  }
+}
 
   update() {
     if (this.movableBox && this.movableBox.update) {
