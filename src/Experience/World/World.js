@@ -66,7 +66,7 @@ export default class World {
           title: "Soldering Christmas Tree",
           description: "This is the LED Christmas tree I soldered for my M1 workshop. This was a great opportunity to learn how to solder and the mechanics behind it.",
           images: ["./images/WhatsApp+Image+2025-10-21+at+18.39.22_4a7c0c46.webp"],
-          videoUrl: null,a
+          videoUrl: null,
         }
       },
       {
