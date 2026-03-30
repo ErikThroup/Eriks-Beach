@@ -13,14 +13,13 @@ export default class Camera {
     this.orbitTarget = new THREE.Vector3(0, 1, 0)
     this.followTarget = null
     
-    // Follow mode settings
-    this.followOffset = new THREE.Vector3(0, 2, 5) // Camera behind and above box
-    this.followSmoothness = 0.1
+    // Follow mode settings - fixed distance from box
+    this.followDistance = 8
+    this.followHeight = 3
     
     this.setInstance()
     this.setControls()
     this.setupKeyboardControls()
-    
   }
 
   setInstance() {
@@ -51,64 +50,48 @@ export default class Camera {
   setFollowTarget(targetMesh) {
     this.followTarget = targetMesh
     this.mode = 'follow'
-    this.controls.enabled = false // Disable orbit controls in follow mode
+
+    // Keep controls enabled so mouse still works
+    this.controls.enabled = true
+
+    // Lock zoom to fixed follow distance
+    this.controls.minDistance = this.followDistance
+    this.controls.maxDistance = this.followDistance
   }
 
   setOrbitTarget(targetMesh) {
     this.orbitTargetMesh = targetMesh
     this.mode = 'orbit'
     this.controls.enabled = true
+
+    // Restore zoom range for orbit mode
+    this.controls.minDistance = 3
+    this.controls.maxDistance = 50
   }
 
   update() {
     if (this.mode === 'follow' && this.followTarget) {
       this.updateFollowMode()
     } else {
-      // Orbit mode
       this.updateOrbitMode()
     }
-    
-    // Always update controls (they handle damping)
+
     this.controls.update()
   }
 
   updateFollowMode() {
     if (!this.followTarget || !this.followTarget.position) return
-    
+
     const boxPos = this.followTarget.position.clone()
-    
-    // Get box's forward direction (from its rotation)
-    const boxForward = new THREE.Vector3(0, 0, -1)
-    boxForward.applyEuler(this.followTarget.rotation)
-    boxForward.y = 0 // Keep horizontal
-    boxForward.normalize()
-    
-    // Calculate camera position: behind the box
-    const offset = this.followOffset.clone()
-    
-    // Apply box's forward direction to offset (so camera stays behind)
-    const cameraPos = boxPos.clone()
-    cameraPos.x -= boxForward.x * offset.z
-    cameraPos.y += offset.y // Always above box
-    cameraPos.z -= boxForward.z * offset.z
-    
-    // Smoothly move camera
-    this.instance.position.lerp(cameraPos, this.followSmoothness)
-    
-    // Look at the box (slightly above its center for better view)
-    const lookAtPos = boxPos.clone()
-    lookAtPos.y += 0.5 // Look at box's center height
-    this.instance.lookAt(lookAtPos)
-    
-    // Update orbit target too (for smooth transition back to orbit)
-    this.orbitTarget.copy(boxPos)
+    boxPos.y += 0.5 // Look at center of box
+
+    // Lock orbit controls target to the box every frame
+    // This makes the camera orbit around the box while keeping mouse control
     this.controls.target.copy(boxPos)
   }
 
   updateOrbitMode() {
-    // Update orbit center to follow box
     if (this.orbitTargetMesh && this.orbitTargetMesh.position) {
-      // Smoothly move orbit center towards box
       this.orbitTarget.lerp(this.orbitTargetMesh.position, 0.1)
       this.controls.target.copy(this.orbitTarget)
     }
@@ -118,7 +101,7 @@ export default class Camera {
     window.addEventListener('keydown', (event) => {
       const key = event.key.toLowerCase()
       
-      // F key to follow the box
+      // F key - follow mode (orbit around box, fixed distance)
       if (key === 'f') {
         const world = this.experience.world
         if (world && world.movableBox && world.movableBox.mesh) {
@@ -126,7 +109,7 @@ export default class Camera {
         }
       }
       
-      // O key to orbit around the box
+      // O key - free orbit mode
       if (key === 'o') {
         const world = this.experience.world
         if (world && world.movableBox && world.movableBox.mesh) {
@@ -134,27 +117,26 @@ export default class Camera {
         }
       }
       
-      // R key to reset camera
+      // R key - reset camera
       if (key === 'r') {
+        this.mode = 'orbit'
+        this.controls.minDistance = 3
+        this.controls.maxDistance = 50
         this.instance.position.set(0, 5, 10)
         this.controls.target.set(0, 1, 0)
       }
-      
-      // 1-3 for preset views
+
       if (key === '1') {
-        // Top-down view
         this.instance.position.set(0, 10, 0)
         this.controls.target.set(0, 0, 0)
       }
       
       if (key === '2') {
-        // Side view
         this.instance.position.set(10, 3, 0)
         this.controls.target.set(0, 1, 0)
       }
       
       if (key === '3') {
-        // Front view
         this.instance.position.set(0, 3, 10)
         this.controls.target.set(0, 1, 0)
       }

@@ -25,7 +25,7 @@ export default class MovableBox {
     // Create a placeholder material first
     this.createPlaceholderMaterial()
     this.setMesh()
-    // this.waitForResources()
+    this.waitForResources()
   }
 
   setGeometry() {
