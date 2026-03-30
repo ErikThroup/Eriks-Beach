@@ -23,6 +23,7 @@ export default class World {
       this.movableBox = new MovableBox();
 
       this.loadBlenderModel();
+      this.loadFlyingMachine();
       this.createTriggerZones();
 
       setTimeout(() => {
@@ -118,6 +119,48 @@ export default class World {
     this.blenderModel.position.set(0, -2, -20);
     this.blenderModel.scale.set(1, 1, 1);
     this.scene.add(this.blenderModel);
+  }
+
+  loadFlyingMachine() {
+    const model = this.resources.items['flyingMachine'];
+    if (!model) return;
+
+    this.flyingMachine = model.scene.clone();
+
+    // Apply textures based on mesh names
+    const denim = this.resources.items['flyingMachineDenim']
+    const wood = this.resources.items['flyingMachineWood']
+    const goldColor = this.resources.items['flyingMachineGoldColor']
+    const goldNormal = this.resources.items['flyingMachineGoldNormal']
+
+    this.flyingMachine.traverse((child) => {
+      if (child.isMesh) {
+        // Log mesh names so you can see what's in the model
+        console.log('Flying machine mesh:', child.name)
+
+        const name = child.name.toLowerCase()
+        if (name.includes('denim') || name.includes('fabric')) {
+          child.material = new THREE.MeshStandardMaterial({ map: denim })
+        } else if (name.includes('wood')) {
+          child.material = new THREE.MeshStandardMaterial({ map: wood })
+        } else if (name.includes('gold') || name.includes('metal')) {
+          child.material = new THREE.MeshStandardMaterial({
+            map: goldColor,
+            normalMap: goldNormal,
+            metalness: 0.8,
+            roughness: 0.3
+          })
+        }
+
+        child.castShadow = true
+        child.receiveShadow = true
+      }
+    })
+
+    // 40 metres away along Z axis
+    this.flyingMachine.position.set(0, 0, -40);
+    this.flyingMachine.scale.set(1, 1, 1);
+    this.scene.add(this.flyingMachine);
   }
 
   update() {
