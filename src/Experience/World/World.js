@@ -131,7 +131,7 @@ export default class World {
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "Contact Info",
-          description: "Feel free to reach out if you have any questions or would like to collaborate. You can contact me at:\n\nPersonal email:\ne.throupsanjuan@gmail.com\n\nUniversity email:\ne.throupsanjuan@student.utwente.nl",
+          description: "Feel free to reach out if you have any questions or would like to collaborate. You can contact me at:\nPersonal email:\ne.throupsanjuan@gmail.com\nUniversity email:\ne.throupsanjuan@student.utwente.nl",
           images: [],
           videoUrl: null,
         }
