@@ -124,6 +124,17 @@ export default class World {
           images: ["./images/unnamed.jpg"],
           videoUrl: "https://www.youtube.com/embed/oSsGmyDUjwg",
         }
+      },
+      {
+        name: "Contact Info",
+        position: { x: 0, y: 0.5, z: 15 },
+        size: { x: 5, y: 2, z: 5 },
+        data: {
+          title: "Contact Info",
+          description: "Feel free to reach out if you have any questions or would like to collaborate. You can contact me at:\n\nPersonal email:\ne.throupsanjuan@gmail.com\n\nUniversity email:\ne.throupsanjuan@student.utwente.nl",
+          images: [],
+          videoUrl: null,
+        }
       }
     ];
 
