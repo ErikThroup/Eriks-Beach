@@ -127,7 +127,7 @@ export default class World {
       },
       {
         name: "Contact Info",
-        position: { x: 0, y: 0.5, z: 15 },
+        position: { x: 15, y: 0.5, z: 0 },
         size: { x: 5, y: 2, z: 5 },
         data: {
           title: "Contact Info",
